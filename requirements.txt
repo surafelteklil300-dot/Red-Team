@@ -1,0 +1,67 @@
+# ============================================================
+# 👑 ULTIMATE GOLD AGENTIC AI - COMPLETE REQUIREMENTS
+# ============================================================
+# ይህ ፋይል ሁሉንም አስፈላጊ ፓኬጆች ይዟል
+# ለሙሉ የGold Level Agentic AI አሠራር
+# ============================================================
+
+# ---------- Web Framework ----------
+Flask==2.3.3
+flask-socketio==5.3.6
+eventlet==0.33.3
+python-dotenv==1.0.0
+
+# ---------- Telegram Bot ----------
+python-telegram-bot==20.3
+
+# ---------- APIs ----------
+openai==1.3.0
+requests==2.31.0
+
+# ---------- Networking ----------
+paramiko==3.4.0
+dnspython==2.6.1
+cryptography==41.0.7
+
+# ---------- Cloud & Containers ----------
+boto3==1.34.0
+docker==6.1.3
+azure-identity==1.15.0
+azure-storage-blob==12.19.0
+
+# ---------- Blockchain ----------
+web3==6.11.0
+
+# ---------- Web Scraping ----------
+beautifulsoup4==4.12.2
+lxml==4.9.3
+
+# ---------- PDF & Reporting ----------
+reportlab==4.0.7
+weasyprint==60.1
+
+# ---------- Async & Concurrency ----------
+gevent==23.9.1
+gunicorn==21.2.0
+
+# ---------- Data & Serialization ----------
+pyyaml==6.0.1
+pymongo==4.6.0
+redis==5.0.1
+
+# ---------- Security & Encoding ----------
+pycryptodome==3.19.0
+python-jose==3.3.0
+
+# ---------- Utilities ----------
+colorama==0.4.6
+tqdm==4.66.1
+
+# ---------- Database ----------
+sqlalchemy==2.0.23
+alembic==1.12.1
+
+# ============================================================
+# 🏆 ይህ ፋይል ለGold Level AI ሙሉ ጥገኛዎችን ያካትታል
+# በ `pip install -r requirements.txt` ያስገቡ
+# ============================================================
