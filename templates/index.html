@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👑 Ultimate Gold Agentic AI</title>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <style>
+        /* ============================================================
+           👑 ULTIMATE GOLD AGENTIC AI - DASHBOARD STYLES
+           ============================================================ */
+        
+        /* ----- Global Reset & Base ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #00ff41;
+            --text-secondary: #88ff88;
+            --text-muted: #668866;
+            --border-color: #00ff41;
+            --gold: #ffd700;
+            --gold-dim: #886622;
+            --red: #ff0040;
+            --red-dim: #661122;
+            --blue: #4488ff;
+            --blue-dim: #224466;
+            --purple: #ff44ff;
+            --purple-dim: #442244;
+            --orange: #ff8800;
+            --orange-dim: #442200;
+            --shadow-glow: 0 0 30px rgba(0, 255, 65, 0.1);
+            --shadow-gold: 0 0 30px rgba(255, 215, 0, 0.15);
+            --radius: 10px;
+            --font-mono: 'Courier New', monospace;
+            --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            padding: 15px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ----- Scrollbar ----- */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-primary);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ----- Container ----- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ----- Header ----- */
+        .header {
+            border-bottom: 2px solid var(--gold);
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left h1 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .header-left .icon {
+            font-size: 2rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge.gold {
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            animation: pulse-gold 2s infinite;
+        }
+
+        .badge.live {
+            color: var(--red);
+            border: 1px solid var(--red);
+            animation: blink-red 1s infinite;
+        }
+
+        .badge.evolving {
+            color: var(--purple);
+            border: 1px solid var(--purple);
+            animation: pulse-purple 1.5s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes blink-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        @keyframes pulse-purple {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 68, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 68, 255, 0.6); }
+        }
+
+        /* ----- Stats Bar ----- */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+        }
+
+        .stat-item .label {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-item .value {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .stat-item .value.gold {
+            color: var(--gold);
+        }
+        .stat-item .value.purple {
+            color: var(--purple);
+        }
+        .stat-item .value.red {
+            color: var(--red);
+        }
+        .stat-item .value.blue {
+            color: var(--blue);
+        }
+
+        /* ----- Tabs ----- */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius) var(--radius) 0 0;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .tab.active {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tab.level1 { border-color: var(--orange); color: var(--orange); }
+        .tab.level1.active { background: var(--orange-dim); color: var(--orange); }
+        .tab.level2 { border-color: var(--blue); color: var(--blue); }
+        .tab.level2.active { background: var(--blue-dim); color: var(--blue); }
+        .tab.level3 { border-color: var(--gold); color: var(--gold); }
+        .tab.level3.active { background: var(--gold-dim); color: var(--gold); }
+        .tab.level4 { border-color: var(--purple); color: var(--purple); }
+        .tab.level4.active { background: var(--purple-dim); color: var(--purple); }
+        .tab.level5 { border-color: var(--red); color: var(--red); }
+        .tab.level5.active { background: var(--red-dim); color: var(--red); }
+
+        /* ----- Content Area ----- */
+        .content {
+            background: var(--bg-secondary);
+            border: 1px solid #222;
+            border-radius: var(--radius);
+            padding: 20px;
+            min-height: 400px;
+            margin-bottom: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ----- Chat Box ----- */
+        .chat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chat-box .messages {
+            height: 180px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 5px;
+            margin-bottom: 10px;
+            background: #000;
+            border-radius: 5px;
+            border: 1px solid #222;
+        }
+
+        .chat-box .messages .user-msg {
+            color: var(--gold);
+        }
+
+        .chat-box .messages .ai-msg {
+            color: var(--purple);
+        }
+
+        .chat-box .messages .system-msg {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .chat-box .input-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chat-box .input-row input {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .chat-box .input-row input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .chat-box .input-row button {
+            padding: 10px 20px;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            color: var(--gold);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .chat-box .input-row button:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .chat-box .input-row button.clear-btn {
+            background: var(--red-dim);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .chat-box .input-row button.clear-btn:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        /* ----- Input Areas ----- */
+        .input-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .input-area input, .input-area select {
+            padding: 10px 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .input-area input:focus, .input-area select:focus {
+            outline: none;
+            border-color: var(--border-color);
+        }
+
+        .input-area select option {
+            background: #111;
+        }
+
+        /* ----- Buttons ----- */
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--border-color);
+            color: #000;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn.gold {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+
+        .btn.gold:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .btn.red {
+            border-color: var(--red);
+            color: var(--red);
+            background: var(--red-dim);
+        }
+
+        .btn.red:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn.blue {
+            border-color: var(--blue);
+            color: var(--blue);
+            background: var(--blue-dim);
+        }
+
+        .btn.blue:hover {
+            background: var(--blue);
+            color: #000;
+        }
+
+        .btn.purple {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--purple-dim);
+        }
+
+        .btn.purple:hover {
+            background: var(--purple);
+            color: #000;
+        }
+
+        .btn.orange {
+            border-color: var(--orange);
+            color: var(--orange);
+            background: var(--orange-dim);
+        }
+
+        .btn.orange:hover {
+            background: var(--orange);
+            color: #000;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ----- Cards ----- */
+        .card {
+            background: var(--bg-card);
+            border-left: 4px solid var(--border-color);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .card.gold-border {
+            border-left-color: var(--gold);
+        }
+
+        .card.red-border {
+            border-left-color: var(--red);
+        }
+
+        .card.blue-border {
+            border-left-color: var(--blue);
+        }
+
+        .card.purple-border {
+            border-left-color: var(--purple);
+        }
+
+        .card.orange-border {
+            border-left-color: var(--orange);
+        }
+
+        .card .title {
+            color: var(--text-secondary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card .content {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            background: transparent;
+            padding: 0;
+            border: none;
+            min-height: auto;
+        }
+
+        /* ----- Terminal ----- */
+        .terminal {
+            background: #0a0a0a;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 15px;
+            height: 280px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            font-family: var(--font-mono);
+            margin: 15px 0;
+        }
+
+        .terminal .log-info {
+            color: var(--blue);
+        }
+
+        .terminal .log-success {
+            color: var(--text-primary);
+        }
+
+        .terminal .log-warning {
+            color: var(--orange);
+        }
+
+        .terminal .log-critical {
+            color: var(--red);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 0, 64, 0.3);
+        }
+
+        .terminal .log-phase {
+            color: var(--purple);
+            font-weight: bold;
+        }
+
+        .terminal .log-gold {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .terminal .log-ai {
+            color: var(--purple);
+        }
+
+        .terminal .log-exploit {
+            color: var(--orange);
+        }
+
+        /* ----- Result Area ----- */
+        #resultArea {
+            margin-top: 15px;
+        }
+
+        #resultArea .card {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- Grid Layout ----- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .header-left h1 { font-size: 1.2rem; }
+            .tabs { gap: 3px; }
+            .tab { padding: 6px 12px; font-size: 0.7rem; }
+        }
+
+        /* ----- Evolution Result Box ----- */
+        .evo-box {
+            background: var(--purple-dim);
+            border: 1px solid var(--purple);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .evo-box pre {
+            color: var(--purple);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* ----- Learn Result ----- */
+        .learn-box {
+            background: var(--blue-dim);
+            border: 1px solid var(--blue);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .learn-box pre {
+            color: var(--blue);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+        }
+
+        /* ----- Status Grid ----- */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .status-item-box {
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid #222;
+        }
+
+        .status-item-box .label {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+        }
+
+        .status-item-box .value {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+
+        /* ----- Capability Card ----- */
+        .capability-card {
+            background: var(--purple-dim);
+            border: 1px solid var(--purple);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .capability-card .name {
+            color: var(--purple);
+            font-weight: bold;
+        }
+
+        .capability-card .status {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        .capability-card .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .capability-card .actions button {
+            padding: 4px 12px;
+            border-radius: 3px;
+            border: 1px solid var(--purple);
+            background: transparent;
+            color: var(--purple);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+
+        .capability-card .actions button:hover {
+            background: var(--purple);
+            color: #000;
+        }
+
+        /* ----- Loading ----- */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--text-muted);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ----- Responsive Terminal Height ----- */
+        @media (max-height: 800px) {
+            .terminal { height: 180px; }
+            .chat-box .messages { height: 120px; }
+        }
+
+        /* ----- Utility ----- */
+        .mt-10 { margin-top: 10px; }
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mb-10 { margin-bottom: 10px; }
+        .mb-15 { margin-bottom: 15px; }
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); }
+        .text-gold { color: var(--gold); }
+        .text-purple { color: var(--purple); }
+        .text-red { color: var(--red); }
+        .text-blue { color: var(--blue); }
+        .text-orange { color: var(--orange); }
+        .flex { display: flex; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .gap-10 { gap: 10px; }
+        .gap-15 { gap: 15px; }
+        .wrap { flex-wrap: wrap; }
+
+        /* ----- Exfil Data Display ----- */
+        .exfil-box {
+            background: #001100;
+            border: 2px solid var(--text-primary);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: var(--text-secondary);
+        }
+
+        .exfil-box .file-name {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .exfil-box .file-data {
+            color: var(--text-primary);
+            font-size: 0.75rem;
+        }
+
+        /* ----- Tooltip ----- */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-primary);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        /* ============================================================
+           END STYLES
+           ============================================================ */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <span class="icon">👑</span>
+            <h1>ULTIMATE GOLD AI</h1>
+        </div>
+        <div class="header-right">
+            <span class="badge gold">🏆 GOLD</span>
+            <span class="badge live">🔴 LIVE</span>
+            <span class="badge evolving" id="evoBadge">🧬 EVOLVING</span>
+            <span id="connectionStatus" style="font-size:0.7rem;color:var(--text-muted);">
+                <span class="loading" style="width:10px;height:10px;border-width:1px;"></span>
+            </span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    STATS BAR
+    ============================================================ -->
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+            <div class="label">🔄 Generation</div>
+            <div class="value gold" id="statGen">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="label">🧬 Capabilities</div>
+            <div class="value purple" id="statCaps">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="label">⚔️ Attacks</div>
+            <div class="value" id="statAttacks">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="label">✅ Success Rate</div>
+            <div class="value blue" id="statSuccess">0%</div>
+        </div>
+        <div class="stat-item">
+            <div class="label">🔌 Connections</div>
+            <div class="value" id="statConns">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="label">⏱️ Uptime</div>
+            <div class="value" id="statUptime">0s</div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    CHAT BOX
+    ============================================================ -->
+    <div class="chat-box">
+        <div class="messages" id="chatMessages">
+            <div class="system-msg">> Welcome to Ultimate Gold Agentic AI</div>
+            <div class="system-msg">> Type any command in the chat below!</div>
+            <div class="system-msg">> Example: "strike 192.168.1.1 gold full"</div>
+        </div>
+        <div class="input-row">
+            <input id="chatInput" placeholder="Type command... (e.g. strike 192.168.1.1 gold full)" />
+            <button onclick="sendChatCommand()">📤 Send</button>
+            <button class="clear-btn" onclick="clearChat()">🗑️ Clear</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TABS
+    ============================================================ -->
+    <div class="tabs">
+        <div class="tab level1 active" onclick="switchTab('level1')">📱 Level 1</div>
+        <div class="tab level2" onclick="switchTab('level2')">🌐 Level 2</div>
+        <div class="tab level3" onclick="switchTab('level3')">👑 Level 3</div>
+        <div class="tab level4" onclick="switchTab('level4')">🧬 Evolution</div>
+        <div class="tab level5" onclick="switchTab('level5')">📊 Status</div>
+    </div>
+
+    <!-- ============================================================
+    CONTENT
+    ============================================================ -->
+    <div class="content" id="contentArea">
+
+        <!-- ===== LEVEL 1: MOBILE ===== -->
+        <div class="tab-content active" id="level1">
+            <h3 style="color:var(--orange);">📱 Level 1: Mobile & WiFi Hacking</h3>
+            <p class="text-muted" style="font-size:0.8rem;">Phone hacking: 6hrs - 1 day | WiFi: 0 - 30 mins</p>
+
+            <div class="grid-2">
+                <div>
+                    <h4 style="color:var(--orange);">📞 Phone Hack</h4>
+                    <div class="input-area">
+                        <input id="phoneTarget" placeholder="Name or Phone Number..." />
+                        <button class="btn orange" onclick="hackPhone()">🔓 Hack Phone</button>
+                    </div>
+                    <div id="phoneResult"></div>
+                </div>
+                <div>
+                    <h4 style="color:var(--orange);">📶 WiFi Hack</h4>
+                    <div class="input-area">
+                        <input id="wifiTarget" placeholder="WiFi SSID (optional)..." />
+                        <button class="btn orange" onclick="hackWifi()">🔓 Hack WiFi</button>
+                    </div>
+                    <div id="wifiResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== LEVEL 2: STANDARD ===== -->
+        <div class="tab-content" id="level2">
+            <h3 style="color:var(--blue);">🌐 Level 2: Server Recon + Strike</h3>
+            <p class="text-muted" style="font-size:0.8rem;">Scan + Exploit (SSH, LFI, SQLi, RCE)</p>
+
+            <div class="input-area">
+                <input id="serverTarget" placeholder="Target IP or Domain..." />
+                <button class="btn blue" onclick="startScan()">🔍 Scan</button>
+                <button class="btn red" onclick="strikeServer()">💀 Strike</button>
+                <select id="serverTask">
+                    <option value="full">Full Attack</option>
+                    <option value="recon_only">Recon Only</option>
+                    <option value="exfil">Exfil Only</option>
+                    <option value="wipe">Wipe Only</option>
+                </select>
+            </div>
+
+            <div id="serverResult"></div>
+        </div>
+
+        <!-- ===== LEVEL 3: GOLD ===== -->
+        <div class="tab-content" id="level3">
+            <h3 style="color:var(--gold);">👑 Level 3: Gold Stealth Attack</h3>
+            <p class="text-muted" style="font-size:0.8rem;">🕵️ Low & Slow | APT Planning | Worm | Trace Removal</p>
+
+            <div class="input-area">
+                <input id="goldTarget" placeholder="Target Organization or IP..." />
+                <button class="btn gold" onclick="strikeGold()">👑 Gold Strike</button>
+                <button class="btn gold" onclick="generateGoldPlan()">📋 Plan</button>
+                <select id="goldTask">
+                    <option value="full">Full (Stealth + Worm + Wipe)</option>
+                    <option value="recon_only">Recon Only</option>
+                    <option value="exfil">Exfil Only</option>
+                    <option value="wipe">Wipe Only</option>
+                </select>
+            </div>
+
+            <div id="goldResult"></div>
+        </div>
+
+        <!-- ===== LEVEL 4: EVOLUTION ===== -->
+        <div class="tab-content" id="level4">
+            <h3 style="color:var(--purple);">🧬 AI Self-Evolution</h3>
+            <p class="text-muted" style="font-size:0.8rem;">ONLY ADD - NEVER REMOVE | Auto-improvement | Internet Learning</p>
+
+            <div class="grid-2">
+                <div>
+                    <h4 style="color:var(--purple);">➕ Add Capability</h4>
+                    <div class="input-area">
+                        <input id="evoAdd" placeholder="e.g. blockchain, web3, docker..." />
+                        <button class="btn purple" onclick="evolveAdd()">🧬 Add</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:var(--purple);">🔧 Improve Capability</h4>
+                    <div class="input-area">
+                        <input id="evoImprove" placeholder="e.g. sql, rce, lfi..." />
+                        <button class="btn purple" onclick="evolveImprove()">🔧 Improve</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h4 style="color:var(--purple);">🌐 Learn from Internet</h4>
+                    <div class="input-area">
+                        <input id="learnTopic" placeholder="Topic to learn..." />
+                        <button class="btn blue" onclick="learnInternet()">🌐 Learn</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:var(--purple);">🤖 Auto-Evolve</h4>
+                    <div class="input-area">
+                        <button class="btn gold" onclick="autoEvolve()" style="flex:1;">🚀 AUTO-EVOLVE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="evo-box" id="evoResult"></div>
+            <div class="learn-box" id="learnResult"></div>
+
+            <div id="capabilitiesList" class="mt-15">
+                <h4 style="color:var(--purple);">📦 Current Capabilities</h4>
+                <div id="capabilitiesContainer"></div>
+            </div>
+        </div>
+
+        <!-- ===== LEVEL 5: STATUS ===== -->
+        <div class="tab-content" id="level5">
+            <h3 style="color:var(--red);">📊 System Status</h3>
+
+            <div class="status-grid" id="statusGrid">
+                <div class="status-item-box"><div class="label">State</div><div class="value" id="statusState">IDLE</div></div>
+                <div class="status-item-box"><div class="label">Generation</div><div class="value gold" id="statusGen">0</div></div>
+                <div class="status-item-box"><div class="label">Capabilities</div><div class="value purple" id="statusCaps">0</div></div>
+                <div class="status-item-box"><div class="label">Total Attacks</div><div class="value" id="statusAttacks">0</div></div>
+                <div class="status-item-box"><div class="label">Success Rate</div><div class="value blue" id="statusSuccess">0%</div></div>
+                <div class="status-item-box"><div class="label">Connections</div><div class="value" id="statusConns">0</div></div>
+                <div class="status-item-box"><div class="label">Uptime</div><div class="value" id="statusUptime">0s</div></div>
+                <div class="status-item-box"><div class="label">API Providers</div><div class="value" id="statusAPI">-</div></div>
+            </div>
+
+            <div class="card red-border mt-15">
+                <div class="title">📋 System Info</div>
+                <div class="content" id="systemInfo">
+                    <span class="text-muted">Loading...</span>
+                </div>
+            </div>
+
+            <div class="card blue-border mt-15">
+                <div class="title">📜 Recent Activity</div>
+                <div class="content" id="activityLog" style="max-height:200px;overflow-y:auto;font-size:0.8rem;">
+                    <span class="text-muted">No activity yet</span>
+                </div>
+            </div>
+
+            <div class="card gold-border mt-15">
+                <div class="title">🧬 Evolution History</div>
+                <div class="content" id="evolutionHistory" style="max-height:150px;overflow-y:auto;font-size:0.8rem;">
+                    <span class="text-muted">No evolution records</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TERMINAL
+    ============================================================ -->
+    <div class="terminal" id="terminal">
+        <div class="log-info">> Ultimate Gold Agentic AI initialized</div>
+        <div class="log-gold">👑 Gold Level: ACTIVE</div>
+        <div class="log-info">> All commands work in chat!</div>
+    </div>
+
+    <!-- ============================================================
+    RESULT AREA
+    ============================================================ -->
+    <div id="resultArea"></div>
+
+    <!-- ============================================================
+    DYNAMIC CAPABILITIES INSERTION POINT
+    ============================================================ -->
+    <!-- DYNAMIC_CAPABILITIES -->
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <div style="text-align:center;padding:20px 0;color:var(--text-muted);font-size:0.7rem;border-top:1px solid #222;margin-top:20px;">
+        👑 Ultimate Gold Agentic AI v3.0 | Built for Competition 🏆
+    </div>
+</div>
+
+<!-- ============================================================
+JAVASCRIPT - MAIN APPLICATION LOGIC
+============================================================ -->
+<script>
+    // ============================================================
+    // SOCKET.IO CONNECTION
+    // ============================================================
+
+    const socket = io({
+        reconnection: true,
+        reconnectionAttempts: 10,
+        reconnectionDelay: 1000,
+        transports: ['websocket', 'polling']
+    });
+
+    // ============================================================
+    // DOM REFERENCES
+    // ============================================================
+
+    const terminal = document.getElementById('terminal');
+    const chatMessages = document.getElementById('chatMessages');
+    const resultArea = document.getElementById('resultArea');
+
+    // ============================================================
+    // CONNECTION STATUS
+    // ============================================================
+
+    socket.on('connect', function() {
+        document.getElementById('connectionStatus').innerHTML = '🟢 Connected';
+        addLog('✅ Connected to server', 'log-success');
+        updateStatus();
+        getCapabilities();
+    });
+
+    socket.on('disconnect', function() {
+        document.getElementById('connectionStatus').innerHTML = '🔴 Disconnected';
+        addLog('❌ Disconnected from server', 'log-critical');
+    });
+
+    socket.on('reconnect', function() {
+        document.getElementById('connectionStatus').innerHTML = '🟢 Reconnected';
+        addLog('🔄 Reconnected to server', 'log-success');
+        updateStatus();
+        getCapabilities();
+    });
+
+    socket.on('reconnect_error', function() {
+        addLog('⚠️ Reconnection error', 'log-warning');
+    });
+
+    // ============================================================
+    // LOGGING
+    // ============================================================
+
+    function addLog(msg, cls = '') {
+        terminal.innerHTML += `<div class="${cls}">> ${msg}</div>`;
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function addChat(msg, type = 'system') {
+        const cls = type === 'user' ? 'user-msg' : type === 'ai' ? 'ai-msg' : 'system-msg';
+        chatMessages.innerHTML += `<div class="${cls}">${msg}</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // ============================================================
+    // SOCKET EVENT HANDLERS
+    // ============================================================
+
+    socket.on('log', function(data) {
+        const clsMap = {
+            'info': 'log-info',
+            'success': 'log-success',
+            'warning': 'log-warning',
+            'critical': 'log-critical',
+            'phase': 'log-phase',
+            'gold': 'log-gold',
+            'ai': 'log-ai',
+            'exploit': 'log-exploit'
+        };
+        const cls = clsMap[data.type] || '';
+        addLog(data.msg, cls);
+    });
+
+    socket.on('update', function(data) {
+        handleUpdate(data);
+    });
+
+    socket.on('chat_response', function(data) {
+        addChat(`🤖 AI: ${data.response}`, 'ai');
+    });
+
+    socket.on('system', function(data) {
+        addChat(`📡 System: ${data.message}`, 'system');
+        if (data.status) {
+            updateStats(data.status);
+        }
+    });
+
+    // ============================================================
+    // UPDATE HANDLER
+    // ============================================================
+
+    function handleUpdate(data) {
+        const type = data.type;
+
+        // ---- Scan Result ----
+        if (type === 'scan_result') {
+            const r = data.data;
+            let html = `<div class="card blue-border">`;
+            html += `<div class="title">🔍 Scan Results for ${r.target}</div>`;
+            html += `<div class="content">`;
+            html += `📡 Open Ports: ${Object.keys(r.open_ports).join(', ') || 'None'}<br>`;
+            html += `🖥️ OS Guess: ${r.os_guess || 'Unknown'}<br>`;
+            if (r.technologies && r.technologies.length) {
+                html += `🧩 Technologies: ${r.technologies.join(', ')}<br>`;
+            }
+            if (r.subdomains && r.subdomains.length) {
+                html += `📂 Subdomains: ${r.subdomains.slice(0,5).join(', ')}${r.subdomains.length > 5 ? '...' : ''}<br>`;
+            }
+            html += `</div></div>`;
+            document.getElementById('serverResult').innerHTML += html;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- Scan Report ----
+        if (type === 'scan_report') {
+            let html = `<div class="card gold-border">`;
+            html += `<div class="title">📄 Scan Report</div>`;
+            html += `<div class="content"><pre style="white-space:pre-wrap;font-size:0.75rem;">${data.data}</pre></div>`;
+            html += `</div>`;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- Ports ----
+        if (type === 'ports') {
+            let html = `<div class="card blue-border">`;
+            html += `<div class="title">📡 Open Ports</div>`;
+            html += `<div class="content">${data.data.join(', ') || 'None'}</div>`;
+            html += `</div>`;
+            const target = document.getElementById('serverResult');
+            if (target) target.innerHTML += html;
+        }
+
+        // ---- Attack Result ----
+        if (type === 'attack_result') {
+            const r = data.data;
+            let html = `<div class="card ${r.success ? 'gold-border' : 'red-border'}">`;
+            html += `<div class="title">⚔️ Attack Result for ${r.target}</div>`;
+            html += `<div class="content">`;
+            html += `Status: ${r.success ? '✅ SUCCESS' : '❌ FAILED'}<br>`;
+            html += `Level: ${r.level || 'unknown'}<br>`;
+            html += `Task: ${r.task || 'unknown'}<br>`;
+            if (r.phases && r.phases.length) {
+                html += `📋 Phases:<br>`;
+                r.phases.forEach(p => {
+                    html += `  - ${p.name}: ${p.status}<br>`;
+                });
+            }
+            if (r.exfiltrated_data && r.exfiltrated_data.length) {
+                html += `📂 Exfiltrated: ${r.exfiltrated_data.length} items<br>`;
+            }
+            if (r.worm_deployed) {
+                html += `🐛 Worm Deployed: YES<br>`;
+            }
+            if (r.traces_removed) {
+                html += `🧹 Traces Removed: YES<br>`;
+            }
+            html += `</div></div>`;
+            resultArea.innerHTML += html;
+            document.getElementById('serverResult').innerHTML += html;
+
+            // Update stats
+            updateStatus();
+        }
+
+        // ---- Phone Result ----
+        if (type === 'phone_result') {
+            const r = data.data;
+            let html = `<div class="card orange-border">`;
+            html += `<div class="title">📱 Phone Hack Complete</div>`;
+            html += `<div class="content">`;
+            html += `📞 Phone: ${r.phone_number || 'N/A'}<br>`;
+            html += `📧 Gmail: ${r.gmail || 'N/A'}<br>`;
+            if (r.total_contacts) html += `👥 Contacts: ${r.total_contacts}<br>`;
+            if (r.total_messages) html += `💬 Messages: ${r.total_messages}<br>`;
+            html += `</div></div>`;
+            document.getElementById('phoneResult').innerHTML = html;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- WiFi Result ----
+        if (type === 'wifi_result') {
+            const r = data.data;
+            let html = `<div class="card orange-border">`;
+            html += `<div class="title">📶 WiFi Hack Complete</div>`;
+            html += `<div class="content">`;
+            html += `📶 SSID: ${r.ssid || 'Unknown'}<br>`;
+            html += `🔑 Password: ${r.password || 'N/A'}<br>`;
+            html += `</div></div>`;
+            document.getElementById('wifiResult').innerHTML = html;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- Evolution Result ----
+        if (type === 'evolution_result') {
+            const r = data.data;
+            const el = document.getElementById('evoResult');
+            el.style.display = 'block';
+            let html = `<div style="color:var(--purple);">🧬 Evolution Result</div>`;
+            html += `<pre>${JSON.stringify(r, null, 2)}</pre>`;
+            el.innerHTML = html;
+            updateStatus();
+            getCapabilities();
+        }
+
+        // ---- Capabilities ----
+        if (type === 'capabilities') {
+            renderCapabilities(data.data);
+        }
+
+        // ---- Discovery ----
+        if (type === 'discovery') {
+            const r = data.data;
+            let html = `<div class="card blue-border">`;
+            html += `<div class="title">🔍 Discovery: ${r.input_name}</div>`;
+            html += `<div class="content">`;
+            if (r.possible_targets && r.possible_targets.length) {
+                html += `🎯 Found Targets:<br>`;
+                r.possible_targets.slice(0,10).forEach(ip => {
+                    html += `  - ${ip}<br>`;
+                });
+                if (r.possible_targets.length > 10) {
+                    html += `  ... and ${r.possible_targets.length - 10} more<br>`;
+                }
+            } else {
+                html += `❌ No targets found`;
+            }
+            html += `</div></div>`;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- Status ----
+        if (type === 'status') {
+            updateStats(data.data);
+        }
+
+        // ---- Attack Started ----
+        if (type === 'attack_started') {
+            const r = data.data;
+            addLog(`⚔️ Attack ${r.id} started on ${r.target} (${r.level})`, 'log-critical');
+        }
+
+        // ---- AI Analysis ----
+        if (type === 'ai_analysis') {
+            const r = data.data;
+            let html = `<div class="card purple-border">`;
+            html += `<div class="title">🧠 AI Analysis</div>`;
+            html += `<div class="content">`;
+            html += `🎯 Target: ${r.target}<br>`;
+            html += `💡 Recommended: ${r.recommended_action || 'None'}<br>`;
+            html += `📊 Confidence: ${(r.confidence * 100).toFixed(0)}%<br>`;
+            html += `⚠️ Risk Score: ${(r.risk_score * 100).toFixed(0)}%<br>`;
+            if (r.vulnerabilities && r.vulnerabilities.length) {
+                html += `🔴 Vulnerabilities:<br>`;
+                r.vulnerabilities.forEach(v => {
+                    html += `  - ${v.name} [${v.cve}] (${v.severity})<br>`;
+                });
+            }
+            html += `</div></div>`;
+            resultArea.innerHTML += html;
+        }
+
+        // ---- Exfil Data ----
+        if (type === 'exfil_data') {
+            let html = `<div class="card gold-border">`;
+            html += `<div class="title">📂 EXFILTRATED DATA</div>`;
+            html += `<div class="exfil-box">`;
+            const dataArray = Array.isArray(data.data) ? data.data : [data.data];
+            dataArray.forEach(item => {
+                if (typeof item === 'object') {
+                    const file = item.file || item.source || 'unknown';
+                    const content = item.data || JSON.stringify(item);
+                    html += `<div class="file-name">📄 ${file}</div>`;
+                    html += `<div class="file-data">${String(content).substring(0, 1000)}</div>`;
+                    html += `<hr style="border-color:#333;margin:8px 0;">`;
+                } else {
+                    html += `<div>${String(item).substring(0, 500)}</div>`;
+                }
+            });
+            html += `</div></div>`;
+            resultArea.innerHTML += html;
+        }
+    }
+
+    // ============================================================
+    // STATS UPDATE
+    // ============================================================
+
+    function updateStats(data) {
+        if (!data) return;
+
+        // System stats
+        if (data.system) {
+            document.getElementById('statConns').textContent = data.system.connections || 0;
+            document.getElementById('statUptime').textContent = data.system.uptime || '0s';
+            document.getElementById('statusConns').textContent = data.system.connections || 0;
+            document.getElementById('statusUptime').textContent = data.system.uptime || '0s';
+        }
+
+        // Attack stats
+        if (data.attack) {
+            document.getElementById('statAttacks').textContent = data.attack.total || 0;
+            document.getElementById('statSuccess').textContent = data.attack.success_rate || '0%';
+            document.getElementById('statusAttacks').textContent = data.attack.total || 0;
+            document.getElementById('statusSuccess').textContent = data.attack.success_rate || '0%';
+        }
+
+        // Evolution stats
+        if (data.evolution) {
+            document.getElementById('statGen').textContent = data.evolution.generation || 0;
+            document.getElementById('statCaps').textContent = data.evolution.capabilities?.capabilities?.length || 0;
+            document.getElementById('statusGen').textContent = data.evolution.generation || 0;
+            document.getElementById('statusCaps').textContent = data.evolution.capabilities?.capabilities?.length || 0;
+            document.getElementById('statusState').textContent = data.evolution.is_evolving ? '🔄 EVOLVING' : '✅ IDLE';
+        }
+
+        // AI stats
+        if (data.ai) {
+            document.getElementById('statusState').textContent = data.ai.state || 'IDLE';
+        }
+
+        // API stats
+        if (data.api) {
+            document.getElementById('statusAPI').textContent = data.api.active_providers || 0;
+        }
+    }
+
+    function updateStatus() {
+        socket.emit('get_status');
+    }
+
+    // ============================================================
+    // CAPABILITIES
+    // ============================================================
+
+    function getCapabilities() {
+        socket.emit('get_capabilities');
+    }
+
+    function renderCapabilities(data) {
+        const container = document.getElementById('capabilitiesContainer');
+        if (!container) return;
+
+        const caps = data.capabilities || [];
+        if (!caps.length) {
+            container.innerHTML = '<span class="text-muted">No capabilities yet</span>';
+            return;
+        }
+
+        let html = '';
+        caps.forEach(cap => {
+            html += `
+                <div class="capability-card">
+                    <span class="name">🧩 ${cap}</span>
+                    <span class="status">✅ Active</span>
+                    <div class="actions">
+                        <button onclick="executeCapability('${cap}')">▶️ Execute</button>
+                        <button onclick="showCapabilityInfo('${cap}')">ℹ️ Info</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function executeCapability(name) {
+        addLog(`▶️ Executing capability: ${name}`, 'log-info');
+        // Send to backend via command
+        sendRawCommand(`execute ${name}`);
+    }
+
+    function showCapabilityInfo(name) {
+        addLog(`ℹ️ Capability: ${name}`, 'log-info');
+        sendRawCommand(`info ${name}`);
+    }
+
+    // ============================================================
+    // CHAT COMMANDS
+    // ============================================================
+
+    function sendChatCommand() {
+        const input = document.getElementById('chatInput');
+        const cmd = input.value.trim();
+        if (!cmd) return;
+
+        addChat(`👤 You: ${cmd}`, 'user');
+        socket.emit('chat_command', { command: cmd });
+        input.value = '';
+    }
+
+    function sendRawCommand(cmd) {
+        addChat(`👤 You: ${cmd}`, 'user');
+        socket.emit('chat_command', { command: cmd });
+    }
+
+    function clearChat() {
+        chatMessages.innerHTML = '<div class="system-msg">> Chat cleared</div>';
+    }
+
+    // ============================================================
+    // TAB SWITCHING
+    // ============================================================
+
+    function switchTab(tabId) {
+        // Update tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab.${tabId}`).classList.add('active');
+
+        // Update content
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+
+        // Refresh data for status tab
+        if (tabId === 'level5') {
+            updateStatus();
+            getCapabilities();
+            getHistory();
+            getActivity();
+            getEvolutionHistory();
+        }
+    }
+
+    // ============================================================
+    // LEVEL 1: MOBILE
+    // ============================================================
+
+    function hackPhone() {
+        const target = document.getElementById('phoneTarget').value.trim();
+        if (!target) { alert('Please enter a target name or phone number'); return; }
+        addLog(`📱 Starting phone hack on ${target}...`, 'log-critical');
+        socket.emit('hack_phone', { target: target });
+    }
+
+    function hackWifi() {
+        const ssid = document.getElementById('wifiTarget').value.trim();
+        addLog(`📶 Starting WiFi hack${ssid ? ' on ' + ssid : ''}...`, 'log-critical');
+        socket.emit('hack_wifi', { ssid: ssid || undefined });
+    }
+
+    // ============================================================
+    // LEVEL 2: STANDARD
+    // ============================================================
+
+    function startScan() {
+        const target = document.getElementById('serverTarget').value.trim();
+        if (!target) { alert('Please enter a target'); return; }
+        const stealth = document.querySelector('#level2 input[name="stealth"]')?.checked || false;
+        addLog(`🔍 Scanning ${target}${stealth ? ' (stealth)' : ''}...`, 'log-info');
+        socket.emit('start_scan', { target: target, stealth: stealth });
+    }
+
+    function strikeServer() {
+        const target = document.getElementById('serverTarget').value.trim();
+        if (!target) { alert('Please enter a target'); return; }
+        const task = document.getElementById('serverTask').value;
+        addLog(`💀 Striking ${target} (${task})...`, 'log-critical');
+        socket.emit('start_attack', { target: target, level: 'standard', task: task });
+    }
+
+    // ============================================================
+    // LEVEL 3: GOLD
+    // ============================================================
+
+    function strikeGold() {
+        const target = document.getElementById('goldTarget').value.trim();
+        if (!target) { alert('Please enter a target'); return; }
+        const task = document.getElementById('goldTask').value;
+        addLog(`👑 GOLD STRIKE on ${target} (${task})...`, 'log-critical');
+        socket.emit('start_attack', { target: target, level: 'gold', task: task });
+    }
+
+    function generateGoldPlan() {
+        const target = document.getElementById('goldTarget').value.trim();
+        if (!target) { alert('Please enter a target'); return; }
+        addLog(`📋 Generating APT plan for ${target}...`, 'log-gold');
+        socket.emit('chat_command', { command: `plan ${target}` });
+    }
+
+    // ============================================================
+    // LEVEL 4: EVOLUTION
+    // ============================================================
+
+    function evolveAdd() {
+        const name = document.getElementById('evoAdd').value.trim();
+        if (!name) { alert('Please enter a capability name'); return; }
+        addLog(`🧬 Adding capability: ${name}...`, 'log-critical');
+        socket.emit('evolve_ai', { action: 'add', name: name });
+        document.getElementById('evoAdd').value = '';
+    }
+
+    function evolveImprove() {
+        const name = document.getElementById('evoImprove').value.trim();
+        if (!name) { alert('Please enter a capability name'); return; }
+        addLog(`🔧 Improving capability: ${name}...`, 'log-info');
+        socket.emit('evolve_ai', { action: 'improve', name: name });
+        document.getElementById('evoImprove').value = '';
+    }
+
+    function learnInternet() {
+        const topic = document.getElementById('learnTopic').value.trim();
+        if (!topic) { alert('Please enter a topic'); return; }
+        addLog(`🌐 Learning about: ${topic}...`, 'log-info');
+        socket.emit('evolve_ai', { action: 'learn', topic: topic });
+        document.getElementById('learnTopic').value = '';
+    }
+
+    function autoEvolve() {
+        addLog('🤖 Starting auto-evolution...', 'log-critical');
+        socket.emit('evolve_ai', { action: 'auto' });
+    }
+
+    // ============================================================
+    // LEVEL 5: STATUS HELPERS
+    // ============================================================
+
+    function getHistory() {
+        socket.emit('get_history', { limit: 10 });
+    }
+
+    function getActivity() {
+        socket.emit('get_activity');
+    }
+
+    function getEvolutionHistory() {
+        // Already handled by status update
+    }
+
+    // ============================================================
+    // KEYBOARD SHORTCUTS
+    // ============================================================
+
+    document.getElementById('chatInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendChatCommand();
+        }
+    });
+
+    // ============================================================
+    // AUTO REFRESH
+    // ============================================================
+
+    setInterval(() => {
+        if (document.getElementById('level5').classList.contains('active')) {
+            updateStatus();
+        }
+    }, 30000);
+
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+
+    addLog('👑 Ultimate Gold Agentic AI loaded', 'log-gold');
+    addLog('💡 Type commands in chat or use the dashboard', 'log-info');
+
+    // Initial status update
+    setTimeout(() => {
+        updateStatus();
+        getCapabilities();
+    }, 1000);
+
+    // ============================================================
+    // EXPOSE FUNCTIONS TO GLOBAL SCOPE
+    // ============================================================
+
+    window.switchTab = switchTab;
+    window.sendChatCommand = sendChatCommand;
+    window.clearChat = clearChat;
+    window.hackPhone = hackPhone;
+    window.hackWifi = hackWifi;
+    window.startScan = startScan;
+    window.strikeServer = strikeServer;
+    window.strikeGold = strikeGold;
+    window.generateGoldPlan = generateGoldPlan;
+    window.evolveAdd = evolveAdd;
+    window.evolveImprove = evolveImprove;
+    window.learnInternet = learnInternet;
+    window.autoEvolve = autoEvolve;
+    window.executeCapability = executeCapability;
+    window.showCapabilityInfo = showCapabilityInfo;
+    window.sendRawCommand = sendRawCommand;
+
+    // ============================================================
+    // END JAVASCRIPT
+    // ============================================================
+</script>
+
+<!-- ============================================================
+END HTML
+============================================================ -->
+</body>
+</html>
